@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <title>Document</title>
+
+    <style>
+      body{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        overflow-x: hidden;
+      }
+      .doughnut{
+         width: 40%;
+      }
+      .content{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      h3{
+        width: 100%;
+        color: white;
+        background-color: rgba(105, 105, 105, 0.775);
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin-top: 2px;
+        font-size: 45px ;
+      }
+      .top{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+      .group_bar{
+        width: 75%;
+        margin-top: 7rem;
+        margin-bottom: 3rem;
+      }
+    </style>
+</head>
+<body>
+  <h3>DASHBOARD</h3>
+
+  <div class="content">
+    <div class="doughnut">
+      <canvas id="myChart" width="600" height="400"></canvas>
+  </div>
+
+  <div class="doughnut">
+    <canvas id="horiz_bar" width="600" height="400"></canvas>
+  </div>
+</div>
+<div>
+</div>
+<div class="top">
+  <div class="group_bar">
+    <canvas id="bar-chart-grouped" width="600" height="400"></canvas>
+  </div>
+</div>
+<script type="text/javascript">
+
+
+   fetch("http://127.0.0.1:5000/players/total_value")
+      .then(resp => resp.json())
+      .then(resp=>{
+         //console.log(resp);
+      
+       new Chart(document.getElementById("myChart").getContext('2d'), {
+            type: 'pie',
+            data: {
+              labels: ["NBA","NFL"],
+              datasets: [{
+                label: "Population (millions)",
+                backgroundColor: ["#3e95cd", "#8e5ea2",],
+                data: [resp.nba,resp.nfl]
+              }]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Masse salariale NBA et NFA (mio $)',
+                fontSize:25
+              }
+            }
+        });
+
+      })
+   
+    //horizontal
+    
+   fetch("http://127.0.0.1:5000/teams/market_value_championship")
+   .then(resp => resp.json())
+   .then(resp=>{
+
+    new Chart(document.getElementById("horiz_bar"), {
+      type: 'horizontalBar',
+      data: {
+        labels: ["Premier league","Serie A", "Bundesliga","Liga","Ligue"],
+        datasets: [
+          {
+            label: "market value of championship (mio euro) | 2021",
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: [resp.pl,resp.sa,resp.bdl,resp.lg, resp.l1]
+          }
+        ]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'market value of championship (mio euro) | 2021',
+          fontSize:25
+        }
+      }
+  });
+   })
+    
+  //groupe_bar
+  
+  fetch("http://127.0.0.1:5000/teams/top_five")
+      .then(resp => resp.json())
+      .then(resp=>{
+
+        new Chart(document.getElementById("bar-chart-grouped"), {
+          type: 'bar',
+          data: {
+            labels: ["first", "second", "third", "fourth","fifth"],
+            datasets: [
+              {
+                label: "Premier league",
+                backgroundColor: "#3e95cd",
+                data: [resp.pl[0].value,resp.lg[0].value,resp.bdl[0].value,resp.sa[0].value,resp.l1[0].value]
+              }, {
+                label: "Liga",
+                backgroundColor: "#8e5ea2",
+                data: [resp.pl[1].value,resp.lg[1].value,resp.bdl[1].value,resp.sa[1].value,resp.l1[1].value]
+              },{
+                label: "Bundesliga",
+                backgroundColor: "#3cba9f",
+                data: [resp.pl[2].value,resp.lg[2].value,resp.bdl[2].value,resp.sa[2].value,resp.l1[2].value]
+              },{
+                label: "Serie A",
+                backgroundColor: "#e8c3b9",
+                data: [resp.pl[3].value,resp.lg[3].value,resp.bdl[3].value,resp.sa[3].value,resp.l1[3].value]
+              },{
+                label: "Ligue 1",
+                backgroundColor: "#c45850",
+                data: [resp.pl[4].value,resp.lg[4].value,resp.bdl[4].value,resp.sa[4].value,resp.l1[4].value]
+              }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'valeur marchande du top 5 des chaque championnat',
+              fontSize:25
+            }
+          }
+      });
+
+      })
+</script>
+</body>
+
+</body>
+</html>
