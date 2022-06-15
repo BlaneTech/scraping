@@ -1,0 +1,43 @@
+.data_players{
+    height: 100%;
+    width: 83%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    /* justify-content: center; */
+}
+.nba, .nfl{
+    width: 100%;
+    margin-bottom: 20px;
+    
+}
+.tab{
+    border: 1px dashed black;
+    height: 28rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+h4{
+    text-align: center;
+    background-color: cornflowerblue;
+    border-right: 2px dashed black;
+}
+.tbody_nba, .tbody_nfl{
+    height: 28rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    color: red;
+}
+.championships{
+    display: flex;
+    border: 1px solid black;
+    margin-bottom: 25px;
+    width: 83%;
+}
+.containt{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

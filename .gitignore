@@ -110,6 +110,8 @@ ENV/
 env.bak/
 venv.bak/
 
+scraping_venv/
+
 # Spyder project settings
 .spyderproject
 .spyproject
